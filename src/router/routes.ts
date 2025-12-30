@@ -1,0 +1,32 @@
+export enum Routes {
+    default = '/',
+    auth = '/auth',
+    home = '/',
+    table = '/table',
+    form = '/form',
+    login = '/auth/login',
+    register = '/auth/register',
+    users = '/users',
+    statistics = '/statistics',
+    products = '/products',
+    orders = '/orders',
+    form_responses = '/form-responses',
+    add_user = '/add-user',
+    profile = '/profile',
+}
+
+
+export const goTo = (route: string, param: string | number) => {
+    return route + '/' + param;
+};
+
+export const goToWithQuery = (route: string, param: any) => {
+    let path = route + '?';
+    if (param)
+        for (const key in param) {
+            if (path.substr(path.length - 1) !== '?')
+                path += '&';
+            path += key + '=' + param[`${key}`];
+        }
+    return path;
+};
