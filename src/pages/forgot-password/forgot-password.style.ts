@@ -1,5 +1,6 @@
-import { rem } from "assets/styles/abstracts/functions";
 import { createUseStyles } from "react-jss";
+import {rem} from "../../assets/styles/abstracts/functions";
+
 
 const styles = {
     page: {
@@ -180,45 +181,6 @@ const styles = {
                 boxShadow: "0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.1)",
             },
         },
-        "& .ant-input-password": {
-            borderRadius: rem(12),
-            padding: `${rem(4)} ${rem(16)}`,
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            background: "rgba(0, 0, 0, 0.3)",
-            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-            "&:hover": {
-                borderColor: "rgba(99, 102, 241, 0.5)",
-                background: "rgba(0, 0, 0, 0.4)",
-            },
-            "&:focus-within": {
-                borderColor: "rgba(99, 102, 241, 0.8)",
-                background: "rgba(0, 0, 0, 0.5)",
-                boxShadow: "0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.1)",
-            },
-            "& .ant-input": {
-                border: "none",
-                padding: `${rem(10)} 0`,
-                background: "transparent",
-                "&:focus": {
-                    boxShadow: "none",
-                },
-            },
-            "& .ant-input-suffix": {
-                color: "rgba(255, 255, 255, 0.5)",
-            },
-        },
-        "& .ant-form-item-has-error .ant-input, & .ant-form-item-has-error .ant-input-password": {
-            borderColor: "rgba(239, 68, 68, 0.5)",
-            "&:focus, &:focus-within": {
-                borderColor: "rgba(239, 68, 68, 0.8)",
-                boxShadow: "0 0 0 3px rgba(239, 68, 68, 0.15)",
-            },
-        },
-        "& .ant-form-item-explain-error": {
-            fontSize: rem(13),
-            color: "rgba(248, 113, 113, 0.9)",
-            marginTop: rem(6),
-        },
     },
     submitButton: {
         width: "100%",
@@ -261,73 +223,6 @@ const styles = {
             boxShadow: "none",
         },
     },
-    forgotPassword: {
-        textAlign: "right",
-        marginTop: rem(-8),
-        marginBottom: rem(28),
-        "& a": {
-            color: "rgba(168, 85, 247, 0.9)",
-            fontSize: rem(14),
-            fontWeight: 500,
-            textDecoration: "none",
-            transition: "all 0.3s ease",
-            position: "relative",
-            "&:hover": {
-                color: "#c084fc",
-                "&::after": {
-                    width: "100%",
-                },
-            },
-            "&::after": {
-                content: '""',
-                position: "absolute",
-                bottom: -2,
-                left: 0,
-                width: 0,
-                height: 1,
-                background: "currentColor",
-                transition: "width 0.3s ease",
-            },
-        },
-    },
-    divider: {
-        margin: `${rem(32)} 0`,
-        color: "rgba(255, 255, 255, 0.4)",
-        fontSize: rem(13),
-        "&::before, &::after": {
-            borderColor: "rgba(255, 255, 255, 0.1)",
-        },
-        "& .ant-divider-inner-text": {
-            color: "rgba(255, 255, 255, 0.4)",
-        },
-    },
-    socialButtons: {
-        display: "flex",
-        gap: rem(12),
-        marginBottom: rem(32),
-    },
-    socialButton: {
-        flex: 1,
-        height: rem(48),
-        borderRadius: rem(12),
-        fontSize: rem(15),
-        fontWeight: 500,
-        border: "1px solid rgba(255, 255, 255, 0.15)",
-        background: "rgba(0, 0, 0, 0.3)",
-        color: "rgba(255, 255, 255, 0.9)",
-        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: rem(8),
-        "&:hover": {
-            borderColor: "rgba(99, 102, 241, 0.5)",
-            background: "rgba(99, 102, 241, 0.1)",
-            color: "#ffffff",
-            transform: "translateY(-2px)",
-            boxShadow: "0 4px 12px rgba(99, 102, 241, 0.2)",
-        },
-    },
     footer: {
         marginTop: rem(32),
         textAlign: "center",
@@ -358,23 +253,6 @@ const styles = {
             },
         },
     },
-    securityBadge: {
-        marginTop: rem(24),
-        padding: rem(16),
-        borderRadius: rem(12),
-        background: "rgba(34, 197, 94, 0.1)",
-        border: "1px solid rgba(34, 197, 94, 0.2)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: rem(8),
-        fontSize: rem(13),
-        color: "rgba(134, 239, 172, 0.9)",
-        "& svg": {
-            width: rem(16),
-            height: rem(16),
-        },
-    },
 };
 
-export const useLoginStyles = createUseStyles(styles);
+export const useForgotPasswordStyles = createUseStyles(styles);

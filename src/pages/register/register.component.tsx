@@ -2,8 +2,7 @@ import { Form, Input, Button, DatePicker, Select, message } from 'antd';
 import { motion } from 'framer-motion';
 import { useRegisterStyles } from './register.style';
 import type { IRegisterFormValues } from './register.d';
-import { registerMutation } from './actions/register.mutation';
-import {useMutation} from 'react-query';
+import { useRegister} from './actions/register.mutation';
 import {Routes} from '../../router/routes';
 
 const { Option } = Select;
@@ -12,16 +11,8 @@ export default function RegisterComponent() {
     const classes = useRegisterStyles();
     const [form] = Form.useForm();
 
-    const { mutate: register, isLoading } = useMutation({
-        mutationFn: registerMutation,
-        onSuccess: () => {
-            message.success('Registration successful! Please login.');
-            form.resetFields();
-        },
-        onError: (error: any) => {
-            message.error(error.message || 'Registration failed. Please try again.');
-        },
-    });
+    const {mutate: register, isLoading} = useRegister();
+
 
     const handleSubmit = (values: IRegisterFormValues) => {
         register(values);
@@ -126,31 +117,6 @@ export default function RegisterComponent() {
                         </Form.Item>
                     </motion.div>
 
-                    <motion.div variants={itemVariants}>
-                        <div className={classes.formRow}>
-                            <Form.Item
-                                name='gender'
-                                label='Gender'
-                                className={classes.formItem}
-                                rules={[{ required: true, message: 'Please select your gender' }]}
-                            >
-                                <Select placeholder='Select gender'>
-                                    <Option value='Male'>Male</Option>
-                                    <Option value='Female'>Female</Option>
-                                    <Option value='Other'>Other</Option>
-                                </Select>
-                            </Form.Item>
-
-                            <Form.Item
-                                name='dob'
-                                label='Date of Birth'
-                                className={classes.formItem}
-                                rules={[{ required: true, message: 'Please select your date of birth' }]}
-                            >
-                                <DatePicker style={{ width: '100%' }} placeholder='Select date' format='YYYY-MM-DD' />
-                            </Form.Item>
-                        </div>
-                    </motion.div>
 
                     <motion.div variants={itemVariants}>
                         <Form.Item
@@ -160,12 +126,6 @@ export default function RegisterComponent() {
                             rules={[{ required: true, message: 'Please enter your address' }]}
                         >
                             <Input placeholder='123 Main St, City, Country' />
-                        </Form.Item>
-                    </motion.div>
-
-                    <motion.div variants={itemVariants}>
-                        <Form.Item name='imgUrl' label='Profile Image URL (Optional)' className={classes.formItem}>
-                            <Input placeholder='https://example.com/profile.jpg' />
                         </Form.Item>
                     </motion.div>
 

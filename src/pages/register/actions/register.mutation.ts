@@ -1,25 +1,24 @@
-import type { IRegisterFormValues } from "../register.d";
+import {useMutation} from "react-query";
+import {IRegisterFormValues} from "../register";
+import {registerService} from "./register.service";
+import {message} from "antd";
+import {useNavigate} from "react-router-dom";
+import {Routes} from "../../../router/routes";
 
-export const registerMutation = async (values: IRegisterFormValues): Promise<any> => {
-    // Simulate API call
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            console.log("Registration data:", values);
-
-            // Simulate successful registration
-            resolve({
-                success: true,
-                message: "Registration successful",
-                user: {
-                    id: "123",
-                    firstName: values.firstName,
-                    lastName: values.lastName,
-                    email: values.email,
+export const useRegister = () => {
+    const navigate = useNavigate();
+    return useMutation({
+        mutationFn: (data: IRegisterFormValues) => registerService(data),
+        onSuccess: (_data, variables) => {
+            message.success("Register Successful! Check your email address.");
+            navigate(Routes.verify_otp, {
+                state: {
+                    email: variables.email,
                 },
             });
-
-            // Simulate error (uncomment to test)
-            // reject(new Error('Email already exists'));
-        }, 1500);
+        },
+        onError: (error: any) => {
+            message.error(error?.message || "Registration failed!");
+        }
     });
 };

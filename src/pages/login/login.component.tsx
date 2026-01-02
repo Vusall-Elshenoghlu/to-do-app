@@ -8,6 +8,7 @@ import type { ILoginFormValues } from "./login";
 import { motion } from "framer-motion";
 import useLocalization from "../../assets/lang";
 import {Routes} from "../../router/routes";
+import {LoginLogoIcon} from "../../assets/images/icons/logo";
 
 export default function LoginComponent() {
     const translate = useLocalization();
@@ -94,24 +95,7 @@ export default function LoginComponent() {
                 <Card className={classes.card}>
                     <motion.div variants={itemVariants}>
                         <div className={classes.logo}>
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="48" height="48" rx="12" fill="url(#gradient)" />
-                                <path
-                                    d="M24 12L14 22L24 32L34 22L24 12Z"
-                                    fill="white"
-                                    fillOpacity="0.9"
-                                    stroke="white"
-                                    strokeWidth="2"
-                                    strokeLinejoin="round"
-                                />
-                                <path d="M24 22V36" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                                <defs>
-                                    <linearGradient id="gradient" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-                                        <stop stopColor="#6366f1" />
-                                        <stop offset="1" stopColor="#a855f7" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
+                            <LoginLogoIcon/>
                         </div>
                         <div className={classes.header}>
                             <h1 className={classes.title}>Welcome Back</h1>
@@ -134,7 +118,7 @@ export default function LoginComponent() {
 
                         <motion.div variants={itemVariants}>
                             <div className={classes.forgotPassword}>
-                                <a href="/forgot-password">Forgot password?</a>
+                                <a href={Routes.forgot_password}>Forgot password?</a>
                             </div>
                         </motion.div>
 

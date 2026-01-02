@@ -4,8 +4,8 @@ export interface IRegisterFormValues {
     email: string
     password: string
     confirmPassword: string
-    gender: "Male" | "Female" | "Other"
-    dob: string
+    gender?: "Male" | "Female" | "Other"
+    dob?: string
     address: string
     imgUrl?: string
 }

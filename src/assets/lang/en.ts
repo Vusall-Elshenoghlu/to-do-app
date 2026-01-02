@@ -2,6 +2,9 @@ export const en = {
     rights: 'All rights reserved',
     copyright: 'Copyright',
     organisation: 'Code Factory LLC',
+    password_min_length: 'password must be min 8',
+    passwords_not_match: 'passwords_not_match',
+
 
     // left menu
     home_title: 'Home',

@@ -16,6 +16,9 @@ import FormResponsesComponent from "../pages/form-responses/form-responses.compo
 import AddUserComponent from "../pages/add-user/add-user.component";
 import AdminProfileComponent from "../pages/admin-profile/admin-profile.component";
 import RegisterComponent from "../pages/register/register.component";
+import ForgotPasswordComponent from "../pages/forgot-password/forgot-password.component";
+import OtpComponent from "../pages/otp/otp.component";
+import ResetPasswordComponent from "../pages/reset-password/reset-password.component";
 
 const router = createBrowserRouter([
     {
@@ -76,6 +79,19 @@ const router = createBrowserRouter([
                 path: Routes.register,
                 element: <RegisterComponent/>,
             },
+            {
+                path: Routes.forgot_password,
+                element: <ForgotPasswordComponent/>,
+            },
+            {
+                path: Routes.verify_otp,
+                element: <OtpComponent/>,
+            },
+            {
+                path: Routes.reset_password,
+                element: <ResetPasswordComponent/>,
+            },
+
 
         ],
     },
