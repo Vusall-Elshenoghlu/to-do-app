@@ -1,4 +1,4 @@
-import {Button, Card, Form, Input, Space, message} from "antd";
+import {Button, Card, Form, Input, InputRef, Space, message} from "antd";
 import {useOtpStyles} from "./otp.style";
 import {useCallback, useEffect, useRef} from "react";
 import {motion} from "framer-motion";
@@ -24,7 +24,7 @@ function OtpComponent() {
     const {mutate: verifyOtp, isLoading} = useVerifyOtp(() => navigate(Routes.login));
 
     const formRef = useRef<any>(null);
-    const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+    const inputRefs = useRef<Array<InputRef | null>>([]);
 
     useEffect(() => {
         if (!email) {
