@@ -1,17 +1,17 @@
-import {environment} from '../configs/app.config';
+import { environment } from "../configs/app.config";
 
+const ACCESS = `${environment.applicationName}-access`;
+const REFRESH = `${environment.applicationName}-refresh`;
 
 export const setTokens = (accessToken: string, refreshToken: string) => {
-    localStorage.setItem(`${environment.applicationName}-access`, accessToken);
-    localStorage.setItem(`${environment.applicationName}-refresh`, refreshToken);
+    localStorage.setItem(ACCESS, accessToken);
+    localStorage.setItem(REFRESH, refreshToken);
 };
 
+export const getAccessToken = () => localStorage.getItem(ACCESS);
+export const getRefreshToken = () => localStorage.getItem(REFRESH);
 
-export const getAccessToken = (): string | null => {
-    return localStorage.getItem(`${environment.applicationName}-access`);
+export const clearTokens = () => {
+    localStorage.removeItem(ACCESS);
+    localStorage.removeItem(REFRESH);
 };
-
-export const getRefreshToken = (): string | null => {
-    return localStorage.getItem(`${environment.applicationName}-refresh`);
-};
-

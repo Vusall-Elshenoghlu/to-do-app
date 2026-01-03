@@ -6,6 +6,7 @@ import {setTokens} from 'core/helpers/get-token';
 import {useNavigate} from 'react-router-dom';
 import {Routes} from 'router/routes';
 import {ILoginFormValues} from '../login';
+import jwtDecode from "jwt-decode";
 
 export const useLogin = () => {
     const navigate = useNavigate();
@@ -13,12 +14,14 @@ export const useLogin = () => {
         mutationFn: (credentials: ILoginFormValues) => {
             return login(credentials);
         },
-        onSuccess: (response) => {
-            console.log(response);
-            const {data} = response;
-            console.log(data);
-            setTokens(data.token, data.refreshtoken);
-            store.dispatch(setUser(data.user));
+        onSuccess: (data) => {
+            console.log("LOGIN DATA:", data);
+
+            setTokens(data.token, data.refreshToken);
+
+            const user = jwtDecode(data.token);
+            store.dispatch(setUser(user));
+
             navigate(Routes.home);
         },
     });

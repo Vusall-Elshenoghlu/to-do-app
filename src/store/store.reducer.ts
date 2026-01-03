@@ -49,12 +49,14 @@ export const rootSlice = createSlice({
             localStorage.setItem(`${environment.applicationName}-locale`, action.payload);
         },
         setUser: (state: IState, action: PayloadAction<any>) => {
-            // state.user = jwtDecode(action.payload);
-            state.user = 'user';
-        }
+            state.user = action.payload;
+        },
+        logout: (state) => {
+            state.user = null;
+        },
     },
 });
 
-export const {setLoader, toggleLeftMenu, setLocale, setUser} = rootSlice.actions;
+export const {setLoader, toggleLeftMenu, setLocale, setUser, logout} = rootSlice.actions;
 
 export default rootSlice.reducer;

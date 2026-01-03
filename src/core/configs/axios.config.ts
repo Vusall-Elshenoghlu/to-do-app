@@ -3,8 +3,9 @@ import {environment} from './app.config';
 import {store} from 'store/store.config';
 import {setLoader} from 'store/store.reducer';
 import {errorToast, successToast} from '../shared/toast/toast';
-import {getAccessToken, getRefreshToken, setTokens} from '../helpers/get-token';
+import {clearTokens, getAccessToken, getRefreshToken, setTokens} from '../helpers/get-token';
 import {API} from "./api.config";
+import {Routes} from "../../router/routes";
 
 const axiosInstance = axios.create({
     baseURL: environment.apiMain,
@@ -46,47 +47,39 @@ const processQueue = (error: any, token: string | null) => {
 };
 
 axiosInstance.interceptors.response.use(
-    (respone) => {
-        store.dispatch(setLoader(false));
-        return respone;
-    },
-    async (error) => {
-        store.dispatch(setLoader(true));
+    res => res,
+    async error => {
         const originalRequest = error.config;
 
-        if(error.response.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest._retry) {
             if (isRefreshing) {
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
-                })
-                    .then((token) => {
-                        originalRequest.headers.Authorization = `Bearer ${token}`;
-                        return axiosInstance(originalRequest);
-                    })
-                    .catch((err) => Promise.reject(err));
+                }).then(token => {
+                    originalRequest.headers.Authorization = `Bearer ${token}`;
+                    return axiosInstance(originalRequest);
+                });
             }
 
             originalRequest._retry = true;
             isRefreshing = true;
 
-            try{
-                const refreshToken = getRefreshToken();
-                const res = await axios.post(`${environment.apiMain}/${API.refresh}`, {
-                    accessToken: getAccessToken(),
-                    refreshToken: getRefreshToken(),
-                });
+            try {
+                const res = await axios.post(
+                    `${environment.apiMain}/${API.refresh}`,
+                    { refreshToken: getRefreshToken() }
+                );
 
-                const { token: accessToken, refreshToken: newRefreshToken } = res.data.data;
-                setTokens(accessToken, newRefreshToken);
+                setTokens(res.data.token, res.data.refreshToken);
+                processQueue(null, res.data.token);
 
-                axiosInstance.defaults.headers.Authorization = `Bearer ${accessToken}`;
-                processQueue(null, accessToken);
-
+                originalRequest.headers.Authorization = `Bearer ${res.data.token}`;
                 return axiosInstance(originalRequest);
-            }catch (err) {
+
+            } catch (err) {
                 processQueue(err, null);
-                errorToast("Sessiya bitdi. Yenidən daxil olun.");
-                localStorage.clear();
+                clearTokens();
+                window.location.href = Routes.login;
                 return Promise.reject(err);
             } finally {
                 isRefreshing = false;
@@ -96,6 +89,7 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
 
 axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => {

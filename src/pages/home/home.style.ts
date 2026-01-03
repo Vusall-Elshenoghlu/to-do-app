@@ -5,84 +5,131 @@ const colors = {
     secondary: "#6C63FF",
     gray: "#7F8C8D",
     white: "#fff",
+    background: "#f0f2f5",
     cardBg: "rgba(255,255,255,0.9)",
     shadow: "0 4px 15px rgba(0,0,0,0.1)",
 };
 
-export const useAdminDashboardStyles = createUseStyles({
-    root: {
-        marginTop: "40px",
-        marginLeft: "40px",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+export const useHomeStyles = createUseStyles({
+    page: {
+        minHeight: "100vh",
+        backgroundColor: colors.background,
+        padding: "40px 20px",
+        fontFamily: "'Inter', 'Segoe UI', sans-serif",
+    },
+    container: {
+        maxWidth: "1200px",
+        margin: "0 auto",
     },
     header: {
-        marginBottom: "30px",
-        fontSize: "2rem",
-        fontWeight: "700",
-        color: colors.primary,
+        marginBottom: "40px",
+        textAlign: "center",
+        "& h1": {
+            fontSize: "2.5rem",
+            fontWeight: 800,
+            color: "#1a1a1a",
+            marginBottom: "8px",
+        },
+        "& p": {
+            color: colors.gray,
+            fontSize: "1.1rem",
+        },
     },
-    cardContainer: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "20px",
+    statsGrid: {
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+        gap: "24px",
         marginBottom: "40px",
     },
-    card: {
+    statCard: {
+        background: colors.white,
+        borderRadius: "16px",
+        padding: "24px",
+        boxShadow: colors.shadow,
         display: "flex",
         alignItems: "center",
-        background: colors.cardBg,
-        padding: "20px",
-        borderRadius: "12px",
-        boxShadow: colors.shadow,
-        minWidth: "14rem",
-        height: "8rem",
+        gap: "20px",
+        transition: "transform 0.3s ease",
         cursor: "pointer",
-        transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
-            transform: "scale(1.05)",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
-        },
-        "& svg": {
-            marginRight: "15px",
-            color: colors.primary,
+            transform: "translateY(-5px)",
         },
     },
-    cardCount: {
-        fontSize: "2rem",
-        fontWeight: 600,
-        color: "#000",
-    },
-    cardTitle: {
-        fontSize: "1rem",
-        color: colors.gray,
-        fontWeight: 600,
-    },
-    tableCard: {
-        flex: 1,
-        padding: "25px",
+    iconWrapper: {
+        width: "56px",
+        height: "56px",
         borderRadius: "12px",
-        background: colors.cardBg,
-        boxShadow: colors.shadow,
-        "& h4": {
-            marginBottom: "20px",
-            color: colors.primary,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "24px",
+        backgroundColor: "rgba(74, 144, 226, 0.1)",
+        color: colors.primary,
+    },
+    statInfo: {
+        "& h3": {
+            margin: 0,
+            fontSize: "1.5rem",
+            fontWeight: 700,
+        },
+        "& p": {
+            margin: 0,
+            color: colors.gray,
+            fontSize: "0.9rem",
+            fontWeight: 500,
         },
     },
-    table: {
-        width: "100%",
-        borderCollapse: "collapse",
-        "& th": {
-            background: colors.primary,
-            color: colors.white,
-            padding: "10px",
-            textAlign: "left",
+    contentGrid: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "24px",
+        "@media (max-width: 992px)": {
+            gridTemplateColumns: "1fr",
         },
-        "& td": {
-            padding: "10px",
-            borderBottom: "1px solid #e0e0e0",
+    },
+    sectionCard: {
+        background: colors.white,
+        borderRadius: "20px",
+        padding: "32px",
+        boxShadow: colors.shadow,
+        "& h2": {
+            marginBottom: "24px",
+            fontSize: "1.25rem",
+            fontWeight: 700,
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
         },
-        "& tr:hover": {
-            background: "rgba(74,144,226,0.1)",
+    },
+    emptyState: {
+        textAlign: "center",
+        padding: "40px 0",
+        color: colors.gray,
+        "& p": {
+            marginTop: "16px",
+            fontSize: "1rem",
         },
+    },
+    todoItem: {
+        padding: "16px",
+        borderRadius: "12px",
+        background: "#f8f9fa",
+        marginBottom: "12px",
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        border: "1px solid #edf2f7",
+        transition: "all 0.2s ease",
+        "&:hover": {
+            borderColor: colors.primary,
+            background: colors.white,
+        },
+    },
+    todoTag: {
+        padding: "4px 8px",
+        borderRadius: "6px",
+        fontSize: "0.75rem",
+        fontWeight: 600,
+        textTransform: "uppercase",
     },
 });
