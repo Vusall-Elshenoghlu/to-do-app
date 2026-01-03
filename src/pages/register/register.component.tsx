@@ -4,12 +4,14 @@ import { useRegisterStyles } from './register.style';
 import type { IRegisterFormValues } from './register.d';
 import { useRegister} from './actions/register.mutation';
 import {Routes} from '../../router/routes';
+import useLocalization from "../../assets/lang";
 
 const { Option } = Select;
 
 export default function RegisterComponent() {
     const classes = useRegisterStyles();
     const [form] = Form.useForm();
+    const translate = useLocalization();
 
     const {mutate: register, isLoading} = useRegister();
 
@@ -42,8 +44,8 @@ export default function RegisterComponent() {
         <div className={classes.container}>
             <motion.div className={classes.card} variants={containerVariants} initial='hidden' animate='visible'>
                 <motion.div className={classes.header} variants={itemVariants}>
-                    <h1 className={classes.title}>Create Account</h1>
-                    <p className={classes.subtitle}>Join us to organize your tasks</p>
+                    <h1 className={classes.title}>{translate('register_page_title')}</h1>
+                    <p className={classes.subtitle}>{translate('register_page_subtitle')}</p>
                 </motion.div>
 
                 <motion.div className={classes.socialButtons} variants={itemVariants}>
@@ -66,18 +68,18 @@ export default function RegisterComponent() {
                                 fill='#EA4335'
                             />
                         </svg>
-                        Google
+                        {translate('register_page_google')}
                     </button>
                     <button className={classes.socialButton} type='button'>
                         <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
                             <path d='M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z' />
                         </svg>
-                        GitHub
+                        {translate('register_page_github')}
                     </button>
                 </motion.div>
 
                 <motion.div className={classes.divider} variants={itemVariants}>
-                    <span>Or register with email</span>
+                    <span>{translate('register_page_alternative_register')}</span>
                 </motion.div>
 
                 <Form form={form} className={classes.form} onFinish={handleSubmit} layout='vertical' requiredMark={false}>
@@ -85,20 +87,20 @@ export default function RegisterComponent() {
                         <div className={classes.formRow}>
                             <Form.Item
                                 name='firstName'
-                                label='First Name'
+                                label={translate('register_page_first_name')}
                                 className={classes.formItem}
                                 rules={[{ required: true, message: 'Please enter your first name' }]}
                             >
-                                <Input placeholder='John' />
+                                <Input placeholder= {translate('register_page_first_name_placeholder')} />
                             </Form.Item>
 
                             <Form.Item
                                 name='lastName'
-                                label='Last Name'
+                                label= {translate('register_page_last_name')}
                                 className={classes.formItem}
                                 rules={[{ required: true, message: 'Please enter your last name' }]}
                             >
-                                <Input placeholder='Doe' />
+                                <Input placeholder = {translate('register_page_last_name_placeholder')} />
                             </Form.Item>
                         </div>
                     </motion.div>
@@ -106,14 +108,14 @@ export default function RegisterComponent() {
                     <motion.div variants={itemVariants}>
                         <Form.Item
                             name='email'
-                            label='Email'
+                            label= {translate('register_page_email')}
                             className={classes.formItem}
                             rules={[
                                 { required: true, message: 'Please enter your email' },
                                 { type: 'email', message: 'Please enter a valid email' },
                             ]}
                         >
-                            <Input placeholder='john.doe@example.com' />
+                            <Input placeholder= {translate('register_page_email_placeholder')} />
                         </Form.Item>
                     </motion.div>
 
@@ -121,11 +123,11 @@ export default function RegisterComponent() {
                     <motion.div variants={itemVariants}>
                         <Form.Item
                             name='address'
-                            label='Address'
+                            label= {translate('register_page_address')}
                             className={classes.formItem}
                             rules={[{ required: true, message: 'Please enter your address' }]}
                         >
-                            <Input placeholder='123 Main St, City, Country' />
+                            <Input placeholder= {translate('register_page_address_placeholder')} />
                         </Form.Item>
                     </motion.div>
 
@@ -133,19 +135,19 @@ export default function RegisterComponent() {
                         <div className={classes.formRow}>
                             <Form.Item
                                 name='password'
-                                label='Password'
+                                label= {translate('register_page_password')}
                                 className={classes.formItem}
                                 rules={[
                                     { required: true, message: 'Please enter your password' },
                                     { min: 8, message: 'Password must be at least 8 characters' },
                                 ]}
                             >
-                                <Input.Password placeholder='Enter your password' />
+                                <Input.Password placeholder= {translate('register_page_password_placeholder')} />
                             </Form.Item>
 
                             <Form.Item
                                 name='confirmPassword'
-                                label='Confirm Password'
+                                label= {translate('register_page_confirm_password')}
                                 className={classes.formItem}
                                 dependencies={['password']}
                                 rules={[
@@ -160,14 +162,14 @@ export default function RegisterComponent() {
                                     }),
                                 ]}
                             >
-                                <Input.Password placeholder='Confirm your password' />
+                                <Input.Password placeholder = {translate('register_page_confirm_password_placeholder')} />
                             </Form.Item>
                         </div>
                     </motion.div>
 
                     <motion.div variants={itemVariants}>
                         <Button type='primary' htmlType='submit' className={classes.submitButton} loading={isLoading}>
-                            Create Account
+                            {translate('register_page_title')}
                         </Button>
                     </motion.div>
 
@@ -175,13 +177,13 @@ export default function RegisterComponent() {
                         <svg viewBox='0 0 24 24' fill='currentColor'>
                             <path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z' />
                         </svg>
-                        Your data is secure and encrypted
+                        {translate('register_page_encrypted')}
                     </motion.div>
                 </Form>
 
                 <motion.div className={classes.footer} variants={itemVariants}>
-                    Already have an account?
-                    <a href={Routes.login}>Sign in</a>
+                    {translate('register_page_have_already_account')}
+                    <a href={Routes.login}>{translate('register_page_sign_in')}</a>
                 </motion.div>
             </motion.div>
         </div>

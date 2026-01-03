@@ -25,7 +25,7 @@ const initialState: IState = {
             value: 'Ru'
         }
     ],
-    locale: az,
+    locale: en,
     user: null
 };
 

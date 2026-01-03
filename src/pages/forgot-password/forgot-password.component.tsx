@@ -1,9 +1,8 @@
-
-import { Button, Card, Form, Input } from 'antd';
-import { useForgotPasswordStyles } from './forgot-password.style';
-import { useCallback, useMemo } from 'react';
-import type { FormRule } from 'antd';
-import { motion } from 'framer-motion';
+import {Button, Card, Form, Input} from 'antd';
+import {useForgotPasswordStyles} from './forgot-password.style';
+import {useCallback, useMemo} from 'react';
+import type {FormRule} from 'antd';
+import {motion} from 'framer-motion';
 import {ForgotPasswordLogoIcon} from '../../assets/images/icons/logo';
 import {Routes} from '../../router/routes';
 import useLocalization from "../../assets/lang";
@@ -38,13 +37,15 @@ function ForgotPasswordComponent() {
         [translate],
     );
 
-    const onSubmit = useCallback((values: { email: IForgotPasswordFormValues }) => {
-        forgotPassword(values.email);
-        console.log('Forgot password for:', values.email);
-    }, []);
+    const onSubmit = useCallback((values: IForgotPasswordFormValues) => {
+        forgotPassword({
+            email: values.email,
+        });
+    }, [forgotPassword]);
+
 
     const containerVariants = {
-        hidden: { opacity: 0 },
+        hidden: {opacity: 0},
         visible: {
             opacity: 1,
             transition: {
@@ -56,7 +57,7 @@ function ForgotPasswordComponent() {
     };
 
     const cardVariants = {
-        hidden: { opacity: 0, y: 30, scale: 0.95 },
+        hidden: {opacity: 0, y: 30, scale: 0.95},
         visible: {
             opacity: 1,
             y: 0,
@@ -71,7 +72,7 @@ function ForgotPasswordComponent() {
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, x: -20 },
+        hidden: {opacity: 0, x: -20},
         visible: {
             opacity: 1,
             x: 0,
@@ -89,7 +90,7 @@ function ForgotPasswordComponent() {
                 <Card className={classes.card}>
                     <motion.div variants={itemVariants}>
                         <div className={classes.logo}>
-                            <ForgotPasswordLogoIcon />
+                            <ForgotPasswordLogoIcon/>
                         </div>
                         <div className={classes.header}>
                             <h1 className={classes.title}>Forgot Password</h1>
@@ -105,8 +106,9 @@ function ForgotPasswordComponent() {
                         autoComplete={'off'}
                     >
                         <motion.div variants={itemVariants}>
-                            <Form.Item rules={rules.email} name='email' label='Email Address' className={classes.formItem}>
-                                <Input placeholder='you@example.com' size='large' />
+                            <Form.Item rules={rules.email} name='email' label='Email Address'
+                                       className={classes.formItem}>
+                                <Input placeholder='vusal.huseynli@gmail.com' size='large'/>
                             </Form.Item>
                         </motion.div>
 

@@ -85,13 +85,14 @@ export const useRegisterStyles = createUseStyles({
     formItem: {
         marginBottom: "24px",
         flex: 1,
-        "& label": {
-            color: "#E2E8F0",
+
+        "& .ant-form-item-label > label": {
+            color: "#FFFFFF !important",
             fontSize: "14px",
             fontWeight: 500,
-            marginBottom: "8px",
         },
-        "& .ant-input, & .ant-input-password, & .ant-picker, & .ant-select-selector": {
+
+        "& .ant-input, & .ant-picker, & .ant-select-selector": {
             background: "rgba(30, 41, 59, 0.6)",
             border: "1px solid rgba(59, 130, 246, 0.3)",
             borderRadius: "12px",
@@ -99,50 +100,61 @@ export const useRegisterStyles = createUseStyles({
             fontSize: "15px",
             color: "#E2E8F0",
             transition: "all 0.3s ease",
+
             "&:hover": {
                 background: "rgba(30, 41, 59, 0.8)",
                 borderColor: "rgba(59, 130, 246, 0.5)",
             },
-            "&:focus, &.ant-input-focused, &.ant-picker-focused": {
+
+            "&.ant-input-focused, &.ant-picker-focused": {
                 background: "rgba(30, 41, 59, 0.9)",
                 borderColor: "#3B82F6",
-                boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.2)",
+                boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.1)",
             },
         },
+
         "& .ant-input-affix-wrapper": {
             background: "rgba(30, 41, 59, 0.6)",
             border: "1px solid rgba(59, 130, 246, 0.3)",
             borderRadius: "12px",
             padding: "12px 16px",
-            transition: "all 0.3s ease",
+
             "&:hover": {
                 background: "rgba(30, 41, 59, 0.8)",
-                borderColor: "rgba(59, 130, 246, 0.5)",
             },
-            "&:focus-within, &.ant-input-affix-wrapper-focused": {
+
+            "&.ant-input-affix-wrapper-focused": {
                 background: "rgba(30, 41, 59, 0.9)",
                 borderColor: "#3B82F6",
-                boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.2)",
             },
+
             "& input": {
                 background: "transparent",
                 border: "none",
                 color: "#E2E8F0",
-                "&::placeholder": {
-                    color: "#64748B",
-                },
             },
         },
-        "& .ant-select-arrow, & .ant-picker-suffix": {
-            color: "#64748B",
-        },
-        "& .ant-picker": {
-            width: "100%",
-        },
+
         "& input::placeholder": {
             color: "#64748B",
         },
+
+        "& input:-webkit-autofill, \
+           & input:-webkit-autofill:hover, \
+           & input:-webkit-autofill:focus": {
+            WebkitBoxShadow: "0 0 0 1000px rgba(30, 41, 59, 0.9) inset !important",
+            WebkitTextFillColor: "#E2E8F0 !important",
+            caretColor: "#E2E8F0",
+            transition: "background-color 9999s ease-in-out 0s",
+        },
+        "& .ant-input-password-icon": {
+            color: "#CBD5F5 !important",
+        },
+
+
     },
+
+
     submitButton: {
         width: "100%",
         height: "52px",

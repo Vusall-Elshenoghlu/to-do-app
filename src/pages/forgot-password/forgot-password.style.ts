@@ -1,4 +1,4 @@
-import { createUseStyles } from "react-jss";
+import {createUseStyles} from "react-jss";
 import {rem} from "../../assets/styles/abstracts/functions";
 
 
@@ -180,6 +180,14 @@ const styles = {
                 background: "rgba(0, 0, 0, 0.5)",
                 boxShadow: "0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.1)",
             },
+        },
+        "& input:-webkit-autofill, \
+   & input:-webkit-autofill:hover, \
+   & input:-webkit-autofill:focus": {
+            WebkitBoxShadow: "0 0 0 1000px rgba(0, 0, 0, 0.5) inset !important",
+            WebkitTextFillColor: "#ffffff !important",
+            caretColor: "#ffffff",
+            transition: "background-color 9999s ease-in-out 0s",
         },
     },
     submitButton: {

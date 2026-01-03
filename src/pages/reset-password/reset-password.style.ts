@@ -220,6 +220,11 @@ const styles = {
             color: "rgba(248, 113, 113, 0.9)",
             marginTop: rem(6),
         },
+        "& .ant-input-password-icon": {
+            color: "#CBD5F5 !important",
+        },
+
+
     },
     submitButton: {
         width: "100%",

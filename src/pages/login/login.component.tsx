@@ -106,7 +106,7 @@ export default function LoginComponent() {
                     <Form name="login" initialValues={initialValues} onFinish={onSubmit} layout="vertical" autoComplete={'off'}>
                         <motion.div variants={itemVariants}>
                             <Form.Item rules={rules.email} name="email" label="Email Address" className={classes.formItem}>
-                                <Input placeholder="you@example.com" size="large" />
+                                <Input placeholder="vusal.huseynli@gmail.com" size="large" />
                             </Form.Item>
                         </motion.div>
 
@@ -165,7 +165,8 @@ export default function LoginComponent() {
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
                             </svg>
-                            Secured with 256-bit SSL encryption
+                            Encrypted connection
+
                         </div>
                     </motion.div>
                 </Card>

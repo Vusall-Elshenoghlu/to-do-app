@@ -1,6 +1,7 @@
-import axios from "axios";
-import type { IResetPasswordFormValues } from "../reset-password";
+import axiosInstance from 'core/configs/axios.config';
+import { API } from 'core/configs/api.config';
+import { IResetPasswordRequest } from '../reset-password';
 
-export const resetPasswordService = (data: IResetPasswordFormValues) => {
-    return axios.post("/auth/reset-password", data);
+export const resetPassword = (data: IResetPasswordRequest) => {
+    return axiosInstance.post(API.reset_password, data).then(res => res.data);
 };
