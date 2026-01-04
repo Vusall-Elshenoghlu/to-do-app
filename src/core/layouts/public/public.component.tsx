@@ -18,7 +18,7 @@ const PublicComponent = () => {
     return (
         <div className={classes.public}>
             <HeaderComponent/>
-            <LeftMenuComponent isOpen={leftMenu}/>
+            <LeftMenuComponent isOpen={leftMenu} />
             <div className={publicClasses}>
                 <Outlet/>
             </div>

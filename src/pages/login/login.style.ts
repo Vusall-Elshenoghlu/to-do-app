@@ -222,7 +222,14 @@ const styles = {
         "& .ant-input-password-icon": {
             color: "#CBD5F5 !important",
         },
-
+        "& input:-webkit-autofill, \
+  & input:-webkit-autofill:hover, \
+  & input:-webkit-autofill:focus": {
+            WebkitBoxShadow: "0 0 0 1000px rgba(0, 0, 0, 0.5) inset !important",
+            WebkitTextFillColor: "#ffffff !important",
+            caretColor: "#ffffff",
+            transition: "background-color 9999s ease-in-out 0s",
+        },
 
 
     },

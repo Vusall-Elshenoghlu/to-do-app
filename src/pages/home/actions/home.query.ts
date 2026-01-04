@@ -1,57 +1,37 @@
-// import {useEffect, useState} from 'react';
-// import {HomeService} from './home.service';
-// import {IDashboardStatistics} from '../model/home.model';
-//
-// export const useHomeStatistics = () => {
-//     const [data, setData] = useState<IDashboardStatistics | null>(null);
-//     const [loading, setLoading] = useState(false);
-//     const [range, setRange] = useState<{from?: string; to?: string}>({});
-//
-//     const fetchStats = async () => {
-//         setLoading(true);
-//         const res = await HomeService.getStatistics(range);
-//         setData(res.data);
-//         setLoading(false);
-//     };
-//
-//     useEffect(() => {
-//         fetchStats();
-//     }, [range]);
-//
-//     return {
-//         data,
-//         loading,
-//         setRange,
-//     };
-// }
+import { useEffect, useState } from 'react';
+import { ISidebarProject } from "../../../core/layouts/public/components/left-menu/left-menu";
+import { getProjects } from "./home.service";
 
-import {useEffect, useState} from 'react';
-import {HomeService} from './home.service';
-import {IDashboardStatistics} from '../model/home.model';
+export const useProjectsQuery = () => {
+    const [data, setData] = useState<ISidebarProject[]>([]);
+    const [loading, setLoading] = useState(true); // true olaraq başla
+    const [error, setError] = useState<string | null>(null);
 
-export const useHomeStatistics = () => {
-    const [data, setData] = useState<IDashboardStatistics | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [range, setRange] = useState<{ from?: string; to?: string }>({});
-
-    const fetchStats = async () => {
+    const fetchProjects = async () => {
         try {
             setLoading(true);
-            const res = await HomeService.getStatistics(range);
-            setData(res.data);
+            setError(null);
+            const response = await getProjects();
+            console.log('Query response:', response);
+            // Backend response: { data: [...], isSuccess: true }
+            setData(response || []);
+        } catch (err) {
+            console.error('Query error:', err);
+            setError('Proyektləri yükləyərkən xəta baş verdi');
+            setData([]);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchStats();
-    }, [range]);
+        fetchProjects();
+    }, []);
 
     return {
-        data,
+        projects: data,
         loading,
-        setRange,
+        error,
+        refetch: fetchProjects,
     };
 };
-

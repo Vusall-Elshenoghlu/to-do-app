@@ -1,68 +1,33 @@
-import {ILeftMenuItemProps} from '../../public';
-import {useLeftMenuItemStyles} from './left-menu-item.style';
-import {NavLink} from 'react-router-dom';
-import {generateGuid} from 'core/helpers/generate-guid';
-import {useState} from 'react';
-import {ArrowDown, ArrowRight} from 'assets/images/icons/arrows';
+import { ILeftMenuItemProps } from '../../public';
+import { useLeftMenuItemStyles } from './left-menu-item.style';
 import classNames from 'classnames';
 
-const LeftMenuItemComponent = ({name, link, icon, submenu}: ILeftMenuItemProps) => {
+const LeftMenuItemComponent = ({
+                                   name,
+                                   icon,
+                                   onClick,
+                                   active
+                               }: ILeftMenuItemProps) => {
     const classes = useLeftMenuItemStyles();
-    const [submenuOpen, setSubmenuOpen] = useState(false);
 
     const leftMenuItemClasses = classNames({
         [classes.link]: true,
-        'active': submenuOpen,
+        [classes.active]: active,
     });
+
     return (
         <li className={classes.item}>
-            {
-                submenu ?
-                    <>
-                        <div className={leftMenuItemClasses} onClick={() => setSubmenuOpen(!submenuOpen)}>
-                            <div className={classes.itemText}>
-                                {icon}
-                                <span>{name}</span>
-                            </div>
-                            <span className={classes.arrow}>{
-                                submenuOpen ?
-                                    <ArrowRight/>
-                                    :
-                                    <ArrowDown/>
-                            }</span>
-                        </div>
-                        {
-                            submenuOpen ?
-                                <ul className={classes.submenu}>
-                                    {
-                                        submenu.map((item: any) => {
-                                            return (
-                                                <li key={generateGuid()}>
-                                                    <NavLink to={item.link} className={classes.subLink}>
-                                                        {item.icon}
-                                                        <span>{item.name}</span>
-                                                    </NavLink>
-                                                </li>
-                                            );
-                                        })
-                                    }
-                                </ul>
-                                :
-                                null
-                        }
-                    </>
-                    :
-                    <NavLink
-                        className={classes.link}
-                        to={{pathname: link}}
-                    >
-                        <div className={classes.itemText}>
-                            {icon}
-                            <span>{name}</span>
-                        </div>
-                    </NavLink>
-            }
-
+            <div
+                className={leftMenuItemClasses}
+                onClick={onClick}
+                role="button"
+                tabIndex={0}
+            >
+                <div className={classes.itemText}>
+                    {icon}
+                    <span>{name}</span>
+                </div>
+            </div>
         </li>
     );
 };

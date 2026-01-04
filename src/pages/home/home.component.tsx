@@ -1,116 +1,114 @@
+import { useEffect, useState } from 'react';
+import { Empty, Button, Spin } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import type React from "react";
-import { motion } from "framer-motion";
-import { Tag, Empty, Button } from "antd";
-import { UserOutlined, CoffeeOutlined, CheckCircleOutlined, CalendarOutlined, PlusOutlined } from "@ant-design/icons";
-import { useHomeStyles } from "./home.style";
+import { useProjectsQuery } from './actions/home.query';
+import { useHomeStyles } from './home.style';
+import { ISidebarProject } from "../../core/layouts/public/components/left-menu/left-menu";
+import LeftMenuComponent from "../../core/layouts/public/components/left-menu/left-menu.component";
 
-// Added a Todo list section with empty state handling as requested.
-
-interface ITodo {
-    id: number
-    task: string
-    priority: "high" | "medium" | "low"
-    dueDate: string
-}
-
-const mockTodos: ITodo[] = [
-    { id: 1, task: "Review new user registrations", priority: "high", dueDate: "Today" },
-    { id: 2, task: "Update coffee menu prices", priority: "medium", dueDate: "Tomorrow" },
-];
-
-const HomeComponent: React.FC = () => {
+const HomeComponent = () => {
     const classes = useHomeStyles();
+    const { projects = [], loading, refetch } = useProjectsQuery();
+    const [activeProjectId, setActiveProjectId] = useState<string>();
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1 },
-        },
-    };
+    console.log('Projects:', projects);
+    console.log('Active Project ID:', activeProjectId);
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: { type: "spring", stiffness: 100 },
-        },
-    };
+    useEffect(() => {
+        if (projects.length > 0 && !activeProjectId) {
+            setActiveProjectId(projects[0].id);
+        }
+    }, [projects, activeProjectId]);
 
-    const stats = [
-        { title: "Total Users", value: "1,284", icon: <UserOutlined />, color: "#4A90E2" },
-        { title: "Active Orders", value: "42", icon: <CoffeeOutlined />, color: "#6C63FF" },
-        { title: "Completed", value: "892", icon: <CheckCircleOutlined />, color: "#00B894" },
-    ];
+    if (loading) return <Spin spinning={loading} />;
+
+    const activeProject = projects?.find(p => p.id === activeProjectId);
+    console.log('Active Project:', activeProject);
 
     return (
-        <motion.div className={classes.page} initial="hidden" animate="visible" variants={containerVariants}>
-            <div className={classes.container}>
-                <motion.div className={classes.header} variants={itemVariants}>
-                    <h1>Welcome Back, Admin</h1>
-                    <p>Here's what's happening with your business today.</p>
-                </motion.div>
+        <div className={classes.page}>
+            {/* SIDEBAR */}
+            <LeftMenuComponent
+                isOpen={true}
+                projects={projects}
+                activeProjectId={activeProjectId}
+                onProjectSelect={setActiveProjectId}
+            />
 
-                <div className={classes.statsGrid}>
-                    {stats.map((stat, idx) => (
-                        <motion.div key={idx} className={classes.statCard} variants={itemVariants}>
-                            <div className={classes.iconWrapper} style={{ color: stat.color, backgroundColor: `${stat.color}15` }}>
-                                {stat.icon}
-                            </div>
-                            <div className={classes.statInfo}>
-                                <h3>{stat.value}</h3>
-                                <p>{stat.title}</p>
-                            </div>
+            {/* MAIN CONTENT */}
+            <div className={classes.content}>
+                <AnimatePresence mode="wait">
+                    {!projects.length ? (
+                        <motion.div
+                            key="empty"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className={classes.emptyState}
+                        >
+                            <Empty description="Hələ heç bir proyekt yoxdur">
+                                <Button
+                                    type="primary"
+                                    icon={<PlusOutlined />}
+                                    size="large"
+                                >
+                                    İlk proyekti yarat
+                                </Button>
+                            </Empty>
                         </motion.div>
-                    ))}
-                </div>
-
-                <div className={classes.contentGrid}>
-                    <motion.div className={classes.sectionCard} variants={itemVariants}>
-                        <h2>
-                            <CheckCircleOutlined style={{ color: "#4A90E2" }} /> Todo List
-                        </h2>
-                        {mockTodos.length > 0 ? (
-                            <div>
-                                {mockTodos.map((todo) => (
-                                    <div key={todo.id} className={classes.todoItem}>
-                                        <div style={{ flex: 1 }}>
-                                            <div style={{ fontWeight: 600 }}>{todo.task}</div>
-                                            <div style={{ fontSize: "0.8rem", color: "#7f8c8d" }}>
-                                                <CalendarOutlined /> {todo.dueDate}
-                                            </div>
-                                        </div>
-                                        <Tag color={todo.priority === "high" ? "red" : "blue"} className={classes.todoTag}>
-                                            {todo.priority}
-                                        </Tag>
-                                    </div>
-                                ))}
-                                <Button type="dashed" block icon={<PlusOutlined />} style={{ marginTop: 12, height: 45 }}>
-                                    Add New Task
+                    ) : activeProject ? (
+                        <motion.div
+                            key={activeProject.id}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.2 }}
+                            className={classes.projectView}
+                        >
+                            <div className={classes.projectHeader}>
+                                <div className={classes.projectTitle}>
+                                    <span
+                                        className={classes.projectColor}
+                                        style={{ backgroundColor: activeProject.colorHex }}
+                                    />
+                                    <h1>{activeProject.name}</h1>
+                                </div>
+                                <Button
+                                    type="primary"
+                                    icon={<PlusOutlined />}
+                                >
+                                    Tapşırıq əlavə et
                                 </Button>
                             </div>
-                        ) : (
-                            <div className={classes.emptyState}>
-                                <Empty description="Your todo list is already empty!" />
-                            </div>
-                        )}
-                    </motion.div>
 
-                    <motion.div className={classes.sectionCard} variants={itemVariants}>
-                        <h2>
-                            <CoffeeOutlined style={{ color: "#6C63FF" }} /> Recent Activity
-                        </h2>
-                        <div className={classes.emptyState}>
-                            <p>No recent activity to show.</p>
-                        </div>
-                    </motion.div>
-                </div>
+                            <div className={classes.projectStats}>
+                                <span className={classes.taskCount}>
+                                    {activeProject.toDoItemsCount} tapşırıq
+                                </span>
+                            </div>
+
+                            {/* BURDA TODO LIST KOMPONENTI GƏLƏCƏK */}
+                            <div className={classes.todoList}>
+                                {activeProject.toDoItemsCount === 0 ? (
+                                    <Empty
+                                        image={Empty.PRESENTED_IMAGE_SIMPLE}
+                                        description="Bu proyektdə hələ tapşırıq yoxdur"
+                                    />
+                                ) : (
+                                    <div>
+                                        {/* TodoList component buraya */}
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
+                    ) : null}
+                </AnimatePresence>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
-// Explicit default export to resolve import errors in app/page.tsx
 export default HomeComponent;

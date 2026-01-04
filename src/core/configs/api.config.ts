@@ -6,5 +6,5 @@ export const API = {
     forgot_password: 'Auth/forgot-password',
     reset_password: 'Auth/reset-password',
     posts: 'posts',
-    statistics: 'admin/dashboard',
+    projects: 'Projects', // get de post da put da bununladi sadece biri get biri post biri put biri de delete
 };

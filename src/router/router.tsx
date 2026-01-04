@@ -9,7 +9,6 @@ import AuthComponent from 'core/layouts/auth/auth.component';
 import LoginComponent from 'pages/login/login.component';
 import AuthProtectedComponent from './protected/auth-protected.component';
 import UsersComponent from "../pages/users/users.component";
-import StatisticsComponent from "../pages/statistics/statistics.component";
 import ProductsComponent from "../pages/products/products.component";
 import OrdersComponent from "../pages/orders/orders.component";
 import FormResponsesComponent from "../pages/form-responses/form-responses.component";
@@ -39,10 +38,6 @@ const router = createBrowserRouter([
             {
                 path: Routes.users,
                 element: <UsersComponent/>,
-            },
-            {
-                path: Routes.statistics,
-                element: <StatisticsComponent/>,
             },
             {
                 path: Routes.products,

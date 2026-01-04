@@ -1,10 +1,10 @@
 
-export interface ICoffee {
-    id: number;
-    name: string;
-    description?: string;
-    photoUrl?: string;
-    price: number;
-    category: MenuCategory;
-    inStock: boolean;
+// home.d.ts
+
+import {ISidebarProject} from "../../core/layouts/public/components/left-menu/left-menu";
+
+export interface IHomeState {
+    projects: ISidebarProject[];
+    activeProjectId?: string;
+    loading: boolean;
 }

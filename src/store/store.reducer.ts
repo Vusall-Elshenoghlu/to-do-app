@@ -36,8 +36,14 @@ export const rootSlice = createSlice({
         setLoader: (state: IState, action: PayloadAction<boolean>) => {
             state.loader = action.payload;
         },
-        toggleLeftMenu: (state: IState) => {
+        toggleLeftMenu: (state) => {
             state.leftMenu = !state.leftMenu;
+        },
+        closeLeftMenu: (state) => {
+            state.leftMenu = false;
+        },
+        openLeftMenu: (state) => {
+            state.leftMenu = true;
         },
         setLocale: (state: IState, action: PayloadAction<ILang>) => {
             const lang = {
@@ -57,6 +63,7 @@ export const rootSlice = createSlice({
     },
 });
 
-export const {setLoader, toggleLeftMenu, setLocale, setUser, logout} = rootSlice.actions;
+export const {setLoader, toggleLeftMenu, closeLeftMenu,
+    openLeftMenu, setLocale, setUser, logout} = rootSlice.actions;
 
 export default rootSlice.reducer;
