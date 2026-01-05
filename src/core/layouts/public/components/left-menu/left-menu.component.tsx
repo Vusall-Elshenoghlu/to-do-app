@@ -2,22 +2,31 @@ import { memo } from 'react';
 import LeftMenuItemComponent from '../left-menu-item/left-menu-item.component';
 import { useLeftMenuStyles } from './left-menu.style';
 import classNames from 'classnames';
-import { ISidebarProject } from "./left-menu";
+import { IProject } from "./left-menu";
 import { useDispatch } from 'react-redux';
 import { closeLeftMenu } from 'store/store.reducer';
+import ColorDot from "./components/color-dot.component";
+import { PlusOutlined, EllipsisOutlined } from "@ant-design/icons";
+import { Dropdown, Menu, Button } from 'antd';
+
 interface ILeftMenuProps {
     isOpen?: boolean;
-    projects?: ISidebarProject[];
-    onProjectSelect?: (id: string) => void;
+    projects?: IProject[];
     activeProjectId?: string;
+    onProjectSelect?: (id: string) => void;
+    onAddProject?: () => void;
+    onEditProject?: (project: IProject) => void;
+    onDeleteProject?: (projectId: string) => void;
 }
-
 
 const LeftMenuComponent = memo(({
                                     isOpen,
                                     projects = [],
+                                    activeProjectId,
                                     onProjectSelect,
-                                    activeProjectId
+                                    onAddProject,
+                                    onEditProject,
+                                    onDeleteProject,
                                 }: ILeftMenuProps) => {
     const classes = useLeftMenuStyles();
     const dispatch = useDispatch();
@@ -27,34 +36,43 @@ const LeftMenuComponent = memo(({
         [classes.hide]: !isOpen,
     });
 
-    console.log("Projects in left menu: ", projects);
     return (
         <div className={leftMenuClasses}>
             <ul>
-                {projects.map((project) => (
-                    <LeftMenuItemComponent
-                        key={project.id}
-                        name={project.name}
-                        icon={
-                            <span
-                                style={{
-                                    width: 12,
-                                    height: 12,
-                                    borderRadius: '50%',
-                                    backgroundColor: project.colorHex,
-                                    display: 'inline-block',
-                                    marginRight: 8,
-                                }}
-                            />
-                        }
-                        active={project.id === activeProjectId}
-                        onClick={() => {
-                            onProjectSelect(project.id);
-                            dispatch(closeLeftMenu()); // 🔥 ƏSAS OLAN BUDUR
-                        }}
-                    />
-                ))}
+                {projects.map(project => {
+                    const menu = (
+                        <Menu>
+                            <Menu.Item onClick={() => onEditProject?.(project)}>Edit</Menu.Item>
+                            <Menu.Item onClick={() => onDeleteProject?.(project.id)}>Delete</Menu.Item>
+                        </Menu>
+                    );
+
+                    return (
+                        <LeftMenuItemComponent
+                            key={project.id}
+                            name={project.name}
+                            icon={<ColorDot color={project.colorHex} />}
+                            active={project.id === activeProjectId}
+                            onClick={() => {
+                                onProjectSelect?.(project.id);
+                                dispatch(closeLeftMenu());
+                            }}
+                            extra={
+                                <Dropdown overlay={menu} trigger={['click']}>
+                                    <Button type="text" icon={<EllipsisOutlined />} />
+                                </Dropdown>
+                            }
+                        />
+                    );
+                })}
             </ul>
+
+            <div className={classes.addProject}>
+                <button onClick={onAddProject}>
+                    <PlusOutlined />
+                    <span>Yeni proyekti yarat</span>
+                </button>
+            </div>
         </div>
     );
 });

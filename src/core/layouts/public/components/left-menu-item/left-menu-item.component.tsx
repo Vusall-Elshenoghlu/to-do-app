@@ -1,12 +1,13 @@
-import { ILeftMenuItemProps } from '../../public';
 import { useLeftMenuItemStyles } from './left-menu-item.style';
 import classNames from 'classnames';
+import {ILeftMenuItemProps} from "./left-menu-item";
 
 const LeftMenuItemComponent = ({
                                    name,
                                    icon,
                                    onClick,
-                                   active
+                                   active,
+                                    extra
                                }: ILeftMenuItemProps) => {
     const classes = useLeftMenuItemStyles();
 
@@ -27,6 +28,7 @@ const LeftMenuItemComponent = ({
                     {icon}
                     <span>{name}</span>
                 </div>
+                {extra && <div>{extra}</div>}
             </div>
         </li>
     );

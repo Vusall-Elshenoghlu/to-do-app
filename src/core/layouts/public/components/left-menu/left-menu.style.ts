@@ -18,6 +18,46 @@ const styles = {
 
     },
     hide: {transform: `translateX(-${rem(sizes.leftMenu)})`,},
+    addProject: {
+        marginTop: 'auto',
+        paddingTop: rem(15),
+        borderTop: `1px dashed ${colors.border}`,
+
+        '& button': {
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: rem(10),
+            padding: `${rem(12)} ${rem(14)}`,
+            borderRadius: rem(10),
+            border: `1px solid ${colors.border}`,
+            backgroundColor: '#fff',
+            cursor: 'pointer',
+
+            fontSize: rem(14),
+            fontWeight: 500,
+            color: colors.text,
+
+            transition: transition(),
+
+            '& svg': {
+                fontSize: rem(16),
+            },
+
+            '&:hover': {
+                backgroundColor: colors.primaryButtonColor,
+                color: '#fff',
+                borderColor: colors.primaryButtonColor,
+
+                '& svg': {
+                    color: '#fff',
+                },
+            },
+
+            '&:active': {
+                transform: 'scale(0.98)',
+            },
+        },}
 };
 
 export const useLeftMenuStyles = createUseStyles(styles);

@@ -2,19 +2,22 @@ import { useEffect, useState } from 'react';
 import { Empty, Button, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import { useProjectsQuery } from './actions/home.query';
 import { useHomeStyles } from './home.style';
-import { ISidebarProject } from "../../core/layouts/public/components/left-menu/left-menu";
 import LeftMenuComponent from "../../core/layouts/public/components/left-menu/left-menu.component";
+import { IProject } from "../../core/layouts/public/components/left-menu/left-menu";
+import {useDeleteProject, useProjectsQuery} from "../../core/layouts/public/components/left-menu/actions/project.query";
+import CreateProjectModal from "../../core/layouts/public/components/left-menu/components/create-project-modal";
+import {useTodosQuery} from "../../core/layouts/public/components/left-menu/actions/todo.query";
+import TodoList from "../../core/layouts/public/components/left-menu/components/todo-list.component";
 
 const HomeComponent = () => {
     const classes = useHomeStyles();
-    const { projects = [], loading, refetch } = useProjectsQuery();
-    const [activeProjectId, setActiveProjectId] = useState<string>();
+    const { data: projects = [], isLoading } = useProjectsQuery();
+    const deleteProject = useDeleteProject();
 
-    console.log('Projects:', projects);
-    console.log('Active Project ID:', activeProjectId);
+    const [activeProjectId, setActiveProjectId] = useState<string>();
+    const [createOpen, setCreateOpen] = useState(false);
+    const [editProject, setEditProject] = useState<IProject | null>(null);
 
     useEffect(() => {
         if (projects.length > 0 && !activeProjectId) {
@@ -22,22 +25,34 @@ const HomeComponent = () => {
         }
     }, [projects, activeProjectId]);
 
-    if (loading) return <Spin spinning={loading} />;
+    const activeProject = projects.find(p => p.id === activeProjectId);
 
-    const activeProject = projects?.find(p => p.id === activeProjectId);
-    console.log('Active Project:', activeProject);
+    const handleEditProject = (project: IProject) => {
+        setEditProject(project);
+        setCreateOpen(true);
+    };
+
+    const handleDeleteProject = (projectId: string) => {
+        if (window.confirm("Projketi silmək istədiyinizə əminsiniz?")) {
+            deleteProject.mutate(projectId);
+        }
+    };
+    const { data: todos = [], isLoading: todosLoading } = useTodosQuery(activeProjectId);
+
+    if (isLoading) return <Spin spinning />;
 
     return (
         <div className={classes.page}>
-            {/* SIDEBAR */}
             <LeftMenuComponent
-                isOpen={true}
+                isOpen
                 projects={projects}
                 activeProjectId={activeProjectId}
                 onProjectSelect={setActiveProjectId}
+                onAddProject={() => { setEditProject(null); setCreateOpen(true); }}
+                onEditProject={handleEditProject}
+                onDeleteProject={handleDeleteProject}
             />
 
-            {/* MAIN CONTENT */}
             <div className={classes.content}>
                 <AnimatePresence mode="wait">
                     {!projects.length ? (
@@ -54,6 +69,7 @@ const HomeComponent = () => {
                                     type="primary"
                                     icon={<PlusOutlined />}
                                     size="large"
+                                    onClick={() => { setEditProject(null); setCreateOpen(true); }}
                                 >
                                     İlk proyekti yarat
                                 </Button>
@@ -70,10 +86,10 @@ const HomeComponent = () => {
                         >
                             <div className={classes.projectHeader}>
                                 <div className={classes.projectTitle}>
-                                    <span
-                                        className={classes.projectColor}
-                                        style={{ backgroundColor: activeProject.colorHex }}
-                                    />
+                  <span
+                      className={classes.projectColor}
+                      style={{ backgroundColor: activeProject.colorHex }}
+                  />
                                     <h1>{activeProject.name}</h1>
                                 </div>
                                 <Button
@@ -85,12 +101,11 @@ const HomeComponent = () => {
                             </div>
 
                             <div className={classes.projectStats}>
-                                <span className={classes.taskCount}>
-                                    {activeProject.toDoItemsCount} tapşırıq
-                                </span>
+                <span className={classes.taskCount}>
+                  {activeProject.toDoItemsCount} tapşırıq
+                </span>
                             </div>
 
-                            {/* BURDA TODO LIST KOMPONENTI GƏLƏCƏK */}
                             <div className={classes.todoList}>
                                 {activeProject.toDoItemsCount === 0 ? (
                                     <Empty
@@ -98,8 +113,8 @@ const HomeComponent = () => {
                                         description="Bu proyektdə hələ tapşırıq yoxdur"
                                     />
                                 ) : (
-                                    <div>
-                                        {/* TodoList component buraya */}
+                                    <div className={classes.todoList}>
+                                        <TodoList projectId={activeProject.id} todos={todos} />
                                     </div>
                                 )}
                             </div>
@@ -107,6 +122,13 @@ const HomeComponent = () => {
                     ) : null}
                 </AnimatePresence>
             </div>
+
+            {/* Create / Edit Project Modal */}
+            <CreateProjectModal
+                open={createOpen}
+                onClose={() => setCreateOpen(false)}
+                editProject={editProject}
+            />
         </div>
     );
 };

@@ -1,37 +1,27 @@
-import { useEffect, useState } from 'react';
-import { ISidebarProject } from "../../../core/layouts/public/components/left-menu/left-menu";
-import { getProjects } from "./home.service";
-
-export const useProjectsQuery = () => {
-    const [data, setData] = useState<ISidebarProject[]>([]);
-    const [loading, setLoading] = useState(true); // true olaraq başla
-    const [error, setError] = useState<string | null>(null);
-
-    const fetchProjects = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            const response = await getProjects();
-            console.log('Query response:', response);
-            // Backend response: { data: [...], isSuccess: true }
-            setData(response || []);
-        } catch (err) {
-            console.error('Query error:', err);
-            setError('Proyektləri yükləyərkən xəta baş verdi');
-            setData([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchProjects();
-    }, []);
-
-    return {
-        projects: data,
-        loading,
-        error,
-        refetch: fetchProjects,
-    };
-};
+// import { IProject } from '../../../core/layouts/public/components/left-menu/left-menu';
+// import { getProjects } from './home.service';
+// import {useQuery} from "react-query";
+//
+// export const PROJECTS_QUERY_KEY = ['projects'];
+//
+// export const useProjectsQuery = () => {
+//     const {
+//         data,
+//         isLoading,
+//         isError,
+//         error,
+//         refetch,
+//     } = useQuery<IProject[], Error>({
+//         queryKey: PROJECTS_QUERY_KEY,
+//         queryFn: getProjects,
+//         staleTime: 5 * 60 * 1000, // 5 dəqiqə cache fresh qalır
+//         retry: 1,
+//     });
+//
+//     return {
+//         projects: data ?? [],
+//         loading: isLoading,
+//         error: isError ? error.message || 'Proyektləri yükləyərkən xəta baş verdi' : null,
+//         refetch,
+//     };
+// };

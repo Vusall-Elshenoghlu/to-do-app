@@ -5,4 +5,5 @@ export interface ILeftMenuItemProps {
     submenu?: any[];
     onClick?: () => void;
     active?: boolean;
+    extra?: React.ReactNode;
 }
